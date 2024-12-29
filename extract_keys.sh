@@ -9,6 +9,7 @@ CORRECT_SHA256="0a7857d40fb02ff1b8d3cbce769e6c402a82a8094b4af553c54e4ffbdc4b6e64
 BINWALK=`which binwalk`
 [ -z "$BINWALK" ] && echo Error: no binwalk found please install it && exit 1
 
+[ ! -d include ] && mkdir include
 
 TMP_DIR=tmp.fwextract
 mkdir "$TMP_DIR"
