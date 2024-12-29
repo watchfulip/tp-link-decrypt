@@ -1,0 +1,43 @@
+
+1.  Run ./extract_keys.sh  to extract RSA keys from included TP-Link Firmware
+
+2.  Run make
+
+Decrypt with   bin/tp-link-decrypt <fw file>
+
+
+
+NOTE:
+
+This program uses libsecurity GPL code downloaded from https://static.tp-link.com/upload/gpl-code/2022/202211/20221130/c310v2_GPL.tar.bz2
+
+TP-Link firmware links used:
+
+http://download.tplinkcloud.com/firmware/ax6000v2-up-ver1-1-2-P1[20230731-rel41066]_1024_nosign_2023-07-31_11.26.17_1693471186048.bin.rollback
+http://download.tplinkcloud.com/firmware/Tapo_C210v1_en_1.3.1_Build_221218_Rel.73283n_u_1679534600836.bin	
+
+./extract_keys.sh requires: 
+
+binwalk
+ubi_reader           (pip install --user ubi_reader)
+
+
+-------------------------------------------------------------------------------
+
+Great care has been taken not to infringe TP-Link's rights.
+
+RSA keys used for verification and decryption are taken from the firmware TP-Link themselves publish.
+
+This tool does not allow signed firmware to be created.  Thus, there is no danger of unauthorized hostile firmware being placed on devices facilitated by this software.
+
+It is hoped this tool may be useful in itself permitting seccurity researches to assist TP-Link with any vulnerabilties and also removing any unfounded suggestion of backdoors or hostile intent that may be levied at them.
+
+Watchful IP
+29 December 2024
+
+-------------------------------------------------------------------------------
+
+I am also looking to explore TP-Link switch firmware encyrption which this tool does not support.
+
+If you have a smart switch that uses encrypted firmware and would like to help - please contact me at watchfulip@protonmail.com
+
