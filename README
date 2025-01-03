@@ -1,10 +1,18 @@
 
-1.  Run ./extract_keys.sh  to extract RSA keys from included TP-Link Firmware
 
-2.  Run make
+If you found this tool useful, feel free to let me know at watchfulip@protonmail.com or in github :)
+
+
+1.  (optional)  Run ./preinstall.sh to satisfy dependencies
+
+2.  Run ./extract_keys.sh  to extract RSA keys from TP-Link Firmware we download from vendor
+
+3.  Run make
 
 Decrypt with   bin/tp-link-decrypt <fw file>
 
+
+Credit:   3 Jan 2025  Preinstall script and enhanced extract_keys script by  GxdTxnz
 
 
 NOTE:
@@ -15,11 +23,6 @@ TP-Link firmware links used:
 
 http://download.tplinkcloud.com/firmware/ax6000v2-up-ver1-1-2-P1[20230731-rel41066]_1024_nosign_2023-07-31_11.26.17_1693471186048.bin.rollback
 http://download.tplinkcloud.com/firmware/Tapo_C210v1_en_1.3.1_Build_221218_Rel.73283n_u_1679534600836.bin	
-
-./extract_keys.sh requires: 
-
-binwalk
-ubi_reader           (pip install --user ubi_reader)
 
 
 -------------------------------------------------------------------------------
