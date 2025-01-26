@@ -15,6 +15,7 @@ As you can see, the response is formed of three parts, each of which is generate
     - If the qop parameter is "auth" or "auth-int", then `middle=nonce:nonceCount:clientNonce:qop`. Then the response will be produced as follows: 
 `response=MD5(HA1:nonce:nonceCount:clientNonce:qop:HA2)`
     - If the qop parameter is not specified, then `middle=nonce`, so the response is generated using the `MD5(HA1:nonce:HA2)` formula.
+
 In our case, the device transmits: 
     - realm = TP-LINK IP-Camera
     - algorithm = MD5
@@ -28,6 +29,7 @@ The client sends:
     - nonce = <some string>
     - cnonce = <some string>
     - nc = <some string>
+
 So the response output will be calculated as `response = MD5(MD5(username:realm:password):nonce:nonceCount:cnonce:qop:MD5(method:digestURI))`.
 All parameters except password are passed in plaintext. It is in the file usr_conf_data that password is stored, which is necessary for Digest Auth.
 
