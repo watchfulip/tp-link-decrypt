@@ -5,8 +5,17 @@
 
 3.  Run `make`
 
-Decrypt with   bin/tp-link-decrypt <fw file>
+Decrypt with   `./bin/tp-link-decrypt <fw file>` then use `binwalk -e <dec bin>` to extract the found signatures
 
+For decryption usr_conf_data:
+    
+    1. Run `./bin/gen_keys_for_usr_conf_data <dir>`, where `<dir>` is directory with signatures
+
+    2. Run `./decrypt_usr_conf_data.sh` for decryption
+    
+    3. See the results in directory with name `_usr_conf_data_dec.extracted`
+
+For more info check USR_DATA_DEC_EXPL file
 
 
 NOTE:

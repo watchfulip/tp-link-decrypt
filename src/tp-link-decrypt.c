@@ -101,37 +101,65 @@ int detect_firmware_ver(const unsigned char *fw_buffer, size_t buffer_size)
     return 0;  
 }
 
+// Function to clean up allocated resources
+void cleanup(unsigned char **fw_buffer, char **dec_fw_file) 
+{
+    if (*fw_buffer) 
+    {
+        memset(*fw_buffer, 0, sizeof(*fw_buffer)); // Clear the buffer to remove sensitive data
+        free(*fw_buffer);
+        *fw_buffer = NULL;
+    }
+
+    if (*dec_fw_file) 
+    {
+	memset(*dec_fw_file, 0, sizeof(*dec_fw_file)); // Clear the string before freeing
+        free(*dec_fw_file);
+        *dec_fw_file = NULL;
+    }
+}
+
 int main(int argc, char *argv[]) 
 {
-	printf("\nTP-link firmware decrypt\n\n%s %s v%s\n%s\n\n", AUTHOR, VDATE, VERSION,URL);
+    printf("\nTP-link firmware decrypt\n\n%s %s v%s\n%s\n\n", AUTHOR, VDATE, VERSION,URL);
 	
-    if (argc != 2) {
+    if (argc != 2) 
+    {
         fprintf(stderr, "Usage: %s <firmware_file>\n", argv[0]);
         return 1;
     }
-    
+
     const char *firmware_file = argv[1];
     FILE *fp = fopen(firmware_file, "rb");
-    if (!fp) {
-        perror("Error opening firmware file\n");
+    if (!fp) 
+    {
+        perror("Error opening firmware file\n"); // Error handling for file opening
         return 1;
     }
-    
+
+    // Determine the firmware file size
     fseek(fp, 0, SEEK_END);
     unsigned int fw_size = ftell(fp);
     fseek(fp, 0, SEEK_SET);
-    
-    //printf("fw_size is %u\n", fw_size);
-    
-    // Read firmware into buffer
-    unsigned char *fw_buffer = calloc(1,fw_size);
-    if (!fw_buffer) {
-        perror("Error allocating memory");
+
+    // Allocate memory for the firmware buffer
+    unsigned char *fw_buffer = calloc(1, fw_size);
+    if (!fw_buffer) 
+    {
+        perror("Error allocating memory for firmware buffer");
         fclose(fp);
         return 1;
     }
-    fread(fw_buffer, 1, fw_size, fp);
-    fclose(fp);
+
+    // Read the firmware content into the buffer
+    if (fread(fw_buffer, 1, fw_size, fp) != fw_size) 
+    {
+        perror("Error reading firmware file");
+        fclose(fp);
+        cleanup(&fw_buffer, NULL); // Free resources on error
+        return 1;
+    }
+    fclose(fp); 
     //printf("fw_buffer is size %u\n", fw_size);
     
     const char *RSA_KEY; 
@@ -249,28 +277,39 @@ int main(int argc, char *argv[])
 	else
 	    printf("\nFirmware verification successful\n");
     
-    
-	char *dec_fw_file = malloc(strlen(firmware_file) + 5);
-	if (dec_fw_file == NULL) {
-		return -1;
-    }
-	strcpy(dec_fw_file, firmware_file);
-	strcat(dec_fw_file, ".dec");
-    
-    // Write decrypted firmware to new file
-    FILE *out_fp = fopen(dec_fw_file, "wb");
-    if (!out_fp) {
-        perror("Error creating output file\n");
-        free(fw_buffer);
+    char *dec_fw_file = malloc(strlen(firmware_file) + 5);
+    if (!dec_fw_file) 
+    {
+        perror("Error allocating memory for output file name");
+        cleanup(&fw_buffer, NULL);
         return 1;
     }
+    snprintf(dec_fw_file, strlen(firmware_file) + 5, "%s.dec", firmware_file); // Safely generate output file name
+
+    // Create the output file
+    FILE *out_fp = fopen(dec_fw_file, "wb");
     
-    fwrite(fw_buffer, 1, fw_size, out_fp);
+    if (!out_fp)
+    {
+        perror("Error creating output file");
+        cleanup(&fw_buffer, &dec_fw_file);
+        return 1;
+    }
+
+    // Write the processed firmware data to the output file
+    if (fwrite(fw_buffer, 1, fw_size, out_fp) != fw_size)
+    {
+        perror("Error writing to output file");
+        fclose(out_fp);
+        cleanup(&fw_buffer, &dec_fw_file);
+        return 1;
+    }
     fclose(out_fp);
-    
-    printf("\nDecrypted firmware written to %s\n\n",dec_fw_file);
-    
-    free(dec_fw_file);
-    free(fw_buffer);
+
+    // Inform the user that the decryption was successful
+    printf("\nDecrypted firmware written to %s\n\n", dec_fw_file);
+
+    // Clean up allocated resources before exiting
+    cleanup(&fw_buffer, &dec_fw_file);
     return 0;
 }
