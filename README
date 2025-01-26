@@ -1,7 +1,9 @@
 
-1.  Run ./extract_keys.sh  to extract RSA keys from included TP-Link Firmware
+1.  Run `sudo ./preinstall.sh`
 
-2.  Run make
+2.  Run `./extract_keys.sh`  to extract RSA keys from included TP-Link Firmware
+
+3.  Run `make`
 
 Decrypt with   bin/tp-link-decrypt <fw file>
 
