@@ -79,7 +79,7 @@ if [[ "$QUIET_MODE" == "yes" ]]; then
 else
   log_info "Extracting ../fw/ax6000v2-up-ver1-1-2-P1[20230731-rel41066]_1024_nosign_2023-07-31_11.26.17_1693471186048.bin.rollback..."
   if [ "$EUID" -eq 0 ]; then
-    binwalk -e -C 1 --run-as=root fw/ax6000v2-up-ver1-1-2-P1[20230731-rel41066]_1024_nosign_2023-07-31_11.26.17_1693471186048.bin.rollbackl
+    binwalk -e -C 1 --run-as=root fw/ax6000v2-up-ver1-1-2-P1[20230731-rel41066]_1024_nosign_2023-07-31_11.26.17_1693471186048.bin.rollback
   else
     binwalk -e -C 1 fw/ax6000v2-up-ver1-1-2-P1[20230731-rel41066]_1024_nosign_2023-07-31_11.26.17_1693471186048.bin.rollback
   fi
