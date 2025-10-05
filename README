@@ -1,4 +1,8 @@
+NOTE as of t October 2025 this project is now depreciated.   
 
+Nate Robbins has kindly taken over and added switch decryption -  https://github.com/robbins/tp-link-decrypt
+
+======================================================================================================
 
 If you found this tool useful, feel free to let me know at watchfulip@protonmail.com or in github :)
 
@@ -38,9 +42,4 @@ It is hoped this tool may be useful in itself permitting seccurity researches to
 Watchful IP
 29 December 2024
 
--------------------------------------------------------------------------------
-
-I am also looking to explore TP-Link switch firmware encyrption which this tool does not support.
-
-If you have a smart switch that uses encrypted firmware and would like to help - please contact me at watchfulip@protonmail.com
 
